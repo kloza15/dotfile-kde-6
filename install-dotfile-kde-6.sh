@@ -9,44 +9,55 @@ echo "--- Starting Universal Setup Script ---"
 install_packages() {
     echo "Detecting package manager..."
     
+    # List of packages to install:
+    # 1. fastfetch (System info)
+    # 2. lsix (Sixel image viewer - requires supported terminal like Konsole)
+    # 3. zsh (Z Shell)
+    # 4. fish (Friendly Interactive Shell)
+    # 5. chafa (Universal terminal image viewer - works in ALL shells/terminals)
+    
     if command -v apt &> /dev/null; then
-        # Debian, Ubuntu, Linux Mint, Kali, etc.
+        # Debian, Ubuntu, Linux Mint, Kali
         echo "Package manager 'apt' detected."
         sudo apt update
-        echo "1. Installing fastfetch..."
-        sudo apt install -y fastfetch
-        echo "2. Installing lsix..."
-        sudo apt install -y lsix
+        echo "Installing fastfetch, shells, and image support..."
+        sudo apt install -y fastfetch lsix zsh fish chafa
 
     elif command -v pacman &> /dev/null; then
-        # Arch Linux, Manjaro, EndeavourOS
+        # Arch Linux, Manjaro
         echo "Package manager 'pacman' detected."
-        echo "1 & 2. Installing fastfetch and lsix..."
-        # Note: lsix might need AUR helper (like yay) on some Arch systems, 
-        # but we attempt standard repo or community first.
-        sudo pacman -Syu --noconfirm fastfetch lsix
+        echo "Installing fastfetch, shells, and image support..."
+        # Note: lsix is in the AUR for Arch, trying standard repo first. 
+        # If lsix fails via pacman, it must be installed manually or via yay/paru.
+        sudo pacman -Syu --noconfirm fastfetch zsh fish chafa
+        
+        # Try to install lsix if available in repo, otherwise warn user
+        if sudo pacman -S --noconfirm lsix 2>/dev/null; then
+            echo "lsix installed successfully."
+        else
+            echo "Warning: lsix not found in standard Arch repos (use AUR). Proceeding..."
+        fi
 
     elif command -v dnf &> /dev/null; then
-        # Fedora, RHEL, CentOS, AlmaLinux
+        # Fedora, RHEL
         echo "Package manager 'dnf' detected."
-        echo "1 & 2. Installing fastfetch and lsix..."
-        sudo dnf install -y fastfetch lsix
+        echo "Installing fastfetch, shells, and image support..."
+        sudo dnf install -y fastfetch lsix zsh fish chafa
 
     elif command -v zypper &> /dev/null; then
         # openSUSE
         echo "Package manager 'zypper' detected."
-        echo "1 & 2. Installing fastfetch and lsix..."
-        sudo zypper install -y fastfetch lsix
+        echo "Installing fastfetch, shells, and image support..."
+        sudo zypper install -y fastfetch lsix zsh fish chafa
 
     elif command -v apk &> /dev/null; then
         # Alpine Linux
         echo "Package manager 'apk' detected."
-        echo "1 & 2. Installing fastfetch and lsix..."
-        sudo apk add fastfetch lsix
+        echo "Installing fastfetch, shells, and image support..."
+        sudo apk add fastfetch lsix zsh fish chafa
 
     else
-        echo "Error: No supported package manager found (apt, pacman, dnf, zypper, apk)."
-        echo "Please install 'fastfetch' and 'lsix' manually."
+        echo "Error: No supported package manager found."
         exit 1
     fi
 }
@@ -78,3 +89,10 @@ else
 fi
 
 echo "--- Setup Completed Successfully ---"
+echo "Installed Shells:"
+echo "1. Bash (Default): $(which bash)"
+echo "2. Zsh: $(which zsh)"
+echo "3. Fish: $(which fish)"
+echo ""
+echo "Current active shell: $SHELL"
+echo "To view images in any shell/terminal, you can now use 'chafa filename.png' or 'lsix filename.png'."
