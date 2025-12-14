@@ -3,57 +3,72 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-echo "--- Starting Universal Setup Script ---"
+echo "--- Starting Advanced Setup Script ---"
 
-# Function to detect package manager and install packages
+# 1. Detect System / Distribution
+if [ -f /etc/os-release ]; then
+    # Load OS details
+    . /etc/os-release
+    echo "Detected System: $NAME ($ID)"
+else
+    echo "Warning: Unable to detect specific distribution via /etc/os-release"
+fi
+
+# 2. Cleanup: Remove old fastfetch configuration
+CONFIG_PATH="$HOME/.config/fastfetch"
+echo "Cleaning up old configuration at: $CONFIG_PATH"
+if [ -d "$CONFIG_PATH" ]; then
+    rm -rf "$CONFIG_PATH"
+    echo "Old configuration removed."
+else
+    echo "No old configuration found. Proceeding..."
+fi
+
+# 3. Universal Installation Function
+# Installs: fastfetch, lsix, shells (zsh, fish), and chafa (for universal image support)
 install_packages() {
-    echo "Detecting package manager..."
+    echo "--- Installing Packages ---"
     
-    # List of packages to install:
-    # 1. fastfetch (System info)
-    # 2. lsix (Sixel image viewer - requires supported terminal like Konsole)
-    # 3. zsh (Z Shell)
-    # 4. fish (Friendly Interactive Shell)
-    # 5. chafa (Universal terminal image viewer - works in ALL shells/terminals)
+    # Define package list
+    # fastfetch: System information tool
+    # lsix: Sixel-based image viewer (Works best in Konsole)
+    # zsh: Z Shell
+    # fish: Friendly Interactive Shell
+    # chafa: Terminal graphics (Works in ALL shells/terminals)
+    PACKAGES="fastfetch lsix zsh fish chafa"
     
     if command -v apt &> /dev/null; then
-        # Debian, Ubuntu, Linux Mint, Kali
-        echo "Package manager 'apt' detected."
+        # Debian / Ubuntu / Mint / Kali
+        echo "Using 'apt' package manager..."
         sudo apt update
-        echo "Installing fastfetch, shells, and image support..."
-        sudo apt install -y fastfetch lsix zsh fish chafa
+        sudo apt install -y $PACKAGES
 
     elif command -v pacman &> /dev/null; then
-        # Arch Linux, Manjaro
-        echo "Package manager 'pacman' detected."
-        echo "Installing fastfetch, shells, and image support..."
-        # Note: lsix is in the AUR for Arch, trying standard repo first. 
-        # If lsix fails via pacman, it must be installed manually or via yay/paru.
+        # Arch Linux / Manjaro
+        echo "Using 'pacman' package manager..."
+        # Sync and install available packages
         sudo pacman -Syu --noconfirm fastfetch zsh fish chafa
-        
-        # Try to install lsix if available in repo, otherwise warn user
+        # lsix might be in AUR for Arch, trying generic repo just in case, 
+        # or skipping if not found to prevent script failure.
         if sudo pacman -S --noconfirm lsix 2>/dev/null; then
-            echo "lsix installed successfully."
+             echo "lsix installed."
         else
-            echo "Warning: lsix not found in standard Arch repos (use AUR). Proceeding..."
+             echo "Notice: 'lsix' not found in standard Arch repos. Please install via AUR (yay -S lsix)."
         fi
 
     elif command -v dnf &> /dev/null; then
-        # Fedora, RHEL
-        echo "Package manager 'dnf' detected."
-        echo "Installing fastfetch, shells, and image support..."
+        # Fedora / RHEL
+        echo "Using 'dnf' package manager..."
         sudo dnf install -y fastfetch lsix zsh fish chafa
 
     elif command -v zypper &> /dev/null; then
         # openSUSE
-        echo "Package manager 'zypper' detected."
-        echo "Installing fastfetch, shells, and image support..."
+        echo "Using 'zypper' package manager..."
         sudo zypper install -y fastfetch lsix zsh fish chafa
 
     elif command -v apk &> /dev/null; then
         # Alpine Linux
-        echo "Package manager 'apk' detected."
-        echo "Installing fastfetch, shells, and image support..."
+        echo "Using 'apk' package manager..."
         sudo apk add fastfetch lsix zsh fish chafa
 
     else
@@ -62,26 +77,25 @@ install_packages() {
     fi
 }
 
-# Execute the installation function
+# Run the installation
 install_packages
 
-# 3. Move fastfetch contents
+# 4. Move new configuration files
 # Source directory (Relative path: assumes script is run from project root)
 SOURCE_DIR="./fastfetch"
-# Destination directory (Using $HOME to target the current user's home folder)
 TARGET_DIR="$HOME/.config/fastfetch"
 
-echo "3. Copying configuration files..."
+echo "--- Copying Configuration ---"
 
-# Check if the source directory exists before copying
+# Check if the source directory exists
 if [ -d "$SOURCE_DIR" ]; then
-    # Create the destination directory if it does not exist
+    # Create the destination directory
     mkdir -p "$TARGET_DIR"
 
-    # Copy all contents recursively from source to destination
+    # Copy all contents recursively
     cp -r "$SOURCE_DIR/"* "$TARGET_DIR/"
     
-    echo "Files copied successfully to: $TARGET_DIR"
+    echo "Configuration successfully copied to: $TARGET_DIR"
 else
     echo "Error: Source directory '$SOURCE_DIR' not found!"
     echo "Please ensure you are running the script from the same directory as the fastfetch folder."
@@ -89,10 +103,12 @@ else
 fi
 
 echo "--- Setup Completed Successfully ---"
-echo "Installed Shells:"
-echo "1. Bash (Default): $(which bash)"
-echo "2. Zsh: $(which zsh)"
-echo "3. Fish: $(which fish)"
 echo ""
-echo "Current active shell: $SHELL"
-echo "To view images in any shell/terminal, you can now use 'chafa filename.png' or 'lsix filename.png'."
+echo "Installed Shells:"
+echo "- Bash: $(command -v bash)"
+echo "- Zsh:  $(command -v zsh)"
+echo "- Fish: $(command -v fish)"
+echo ""
+echo "Image Support Info:"
+echo "- Use 'lsix filename.png' for High-Res Sixel support (Requires Konsole/mlterm)."
+echo "- Use 'chafa filename.png' for Universal support on ANY shell/terminal."
