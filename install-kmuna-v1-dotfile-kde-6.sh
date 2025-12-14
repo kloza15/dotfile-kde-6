@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Exit immediately if a command exits with a non-zero status
-# (We will handle specific commands that might fail gracefully)
+# We allow some flexibility for specific checks
 set -e
 
-echo "--- Starting Setup Script ---"
+echo "--- Starting Complete Setup Script ---"
 
 # 1. Detect System / Distribution
 if [ -f /etc/os-release ]; then
@@ -42,33 +42,31 @@ install_lsix_manually() {
     fi
 }
 
-# 3. Install Packages (fastfetch, chafa, lsix)
+# 3. Install Packages (fastfetch, chafa, lsix, git, unzip, wget)
+# Added 'unzip' and 'wget' to ensure font installation works
 install_packages() {
     echo "--- Installing Packages ---"
     
-    # We install 'chafa' as a universal fallback for image support
-    # We install 'lsix' if available in repo, otherwise manual
+    # Common tools needed
+    TOOLS="git unzip wget"
     
     if command -v apt &> /dev/null; then
         # Debian / Ubuntu
         echo "Using 'apt'..."
         sudo apt update
-        sudo apt install -y fastfetch chafa lsix git
+        sudo apt install -y fastfetch chafa lsix $TOOLS
 
     elif command -v dnf &> /dev/null; then
         # Fedora / RHEL
         echo "Using 'dnf'..."
-        # Fedora does NOT have lsix in default repos, so we skip it here to avoid errors
-        # using --skip-broken or just installing available ones
-        sudo dnf install -y fastfetch chafa git
-        
-        # Install lsix manually for Fedora
+        # Fedora: Install available tools, skip lsix (install manually later)
+        sudo dnf install -y fastfetch chafa $TOOLS
         install_lsix_manually
 
     elif command -v pacman &> /dev/null; then
         # Arch Linux
         echo "Using 'pacman'..."
-        sudo pacman -Syu --noconfirm fastfetch chafa git
+        sudo pacman -Syu --noconfirm fastfetch chafa $TOOLS
         
         # Try installing lsix from repo, if fail, manual
         if ! sudo pacman -S --noconfirm lsix 2>/dev/null; then
@@ -78,13 +76,13 @@ install_packages() {
     elif command -v zypper &> /dev/null; then
         # openSUSE
         echo "Using 'zypper'..."
-        sudo zypper install -y fastfetch chafa git
+        sudo zypper install -y fastfetch chafa $TOOLS
         install_lsix_manually
 
     elif command -v apk &> /dev/null; then
         # Alpine
         echo "Using 'apk'..."
-        sudo apk add fastfetch chafa lsix git
+        sudo apk add fastfetch chafa lsix $TOOLS
 
     else
         echo "Error: No supported package manager found."
@@ -109,30 +107,48 @@ else
     exit 1
 fi
 
-# 5. Add 'fastfetch' to Shell Configs (ONLY if not present)
+# 5. Install Hack Font
+echo "--- Installing Hack Font ---"
+
+# Create fonts directory
+mkdir -p "$HOME/.local/share/fonts"
+
+ZIP_FILE="$HOME/Downloads/Hack.zip"
+
+# Check if Hack.zip exists in Downloads, if not, download it automatically
+if [ ! -f "$ZIP_FILE" ]; then
+    echo "Hack.zip not found in Downloads. Downloading it now..."
+    # URL for Hack Font v3.003
+    wget -O "$ZIP_FILE" https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip
+fi
+
+# Unzip and Cache
+if [ -f "$ZIP_FILE" ]; then
+    echo "Extracting font..."
+    unzip -o "$ZIP_FILE" -d "$HOME/.local/share/fonts"
+    echo "Updating font cache..."
+    fc-cache -fv
+    echo "Hack font installed successfully."
+else
+    echo "Error: Failed to download or find Hack.zip."
+fi
+
+# 6. Add 'fastfetch' to Shell Configs (ONLY if not present)
 echo "--- Updating Shell Configurations ---"
 
-# Helper function to append fastfetch command
 add_fastfetch_to_rc() {
     local rc_file="$1"
-    
-    # Only proceed if the file exists
     if [ -f "$rc_file" ]; then
-        # Check if fastfetch is already in the file
         if ! grep -q "^fastfetch" "$rc_file" && ! grep -q " fastfetch" "$rc_file"; then
             echo "" >> "$rc_file"
             echo "fastfetch" >> "$rc_file"
             echo "Added fastfetch to $rc_file"
-        else
-            echo "fastfetch already exists in $rc_file"
         fi
     fi
 }
 
-# Apply to Bash
+# Apply to Bash and Zsh
 add_fastfetch_to_rc "$HOME/.bashrc"
-
-# Apply to Zsh
 add_fastfetch_to_rc "$HOME/.zshrc"
 
 # Apply to Fish
@@ -142,9 +158,17 @@ if [ -f "$FISH_CONFIG" ]; then
         echo "" >> "$FISH_CONFIG"
         echo "fastfetch" >> "$FISH_CONFIG"
         echo "Added fastfetch to $FISH_CONFIG"
-    else
-        echo "fastfetch already exists in $FISH_CONFIG"
     fi
 fi
 
 echo "--- Setup Completed Successfully ---"
+echo ""
+echo "#########################################################"
+echo "# ACTION REQUIRED: Kde System Settings                  #"
+echo "#########################################################"
+echo "# You must manually update your font settings in KDE:   #"
+echo "# 1. Go to: System Settings -> Fonts                    #"
+echo "# 2. Locate: 'Fixed width'                              #"
+echo "# 3. Change it to: Hack 10pt                            #"
+echo "# 4. Click Apply.                                       #"
+echo "#########################################################"
