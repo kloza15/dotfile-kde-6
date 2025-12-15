@@ -5,7 +5,7 @@ For the quickest setup, you can run this single, chained command:
 ### Quick Install (Single Command)
 
 ```bash
-git clone https://github.com/kloza15/dotfile-kde-6.git && cd dotfile-kde-6 && chmod +x 1-install-fastfetch-v1dotfile-kde-6.sh && ./1-install-fastfetch-v1dotfile-kde-6.sh
+git clone https://github.com/kloza15/dotfile-kde-6.git && cd dotfile-kde-6 && chmod +x install-kmuna-v1-dotfile-kde-6.sh && ./install-kmuna-v1-dotfile-kde-6.sh
 ```
 
 -----
@@ -29,13 +29,13 @@ To get started with this project, follow these simple steps in your terminal:
   * **Grant Execution Permissions:** This makes the script executable, allowing you to run it.
 
     ```bash
-    chmod +x 1-install-fastfetch-v1dotfile-kde-6.sh
+    chmod +x install-kmuna-v1-dotfile-kde-6.sh
     ```
 
   * **Run the Installation Script:** Execute the script to apply the KDE dotfiles and configurations.
 
     ```bash
-    ./1-install-fastfetch-v1dotfile-kde-6.sh
+    ./install-kmuna-v1-dotfile-kde-6.sh
     ```
 
 -----
