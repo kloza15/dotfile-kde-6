@@ -1,4 +1,3 @@
-```markdown
 <div align="center">
   
   # Pixelform Dotfiles Auto-Installer 🎨
