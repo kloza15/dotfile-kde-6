@@ -151,36 +151,6 @@
       "keyColor": "blue"
     },
 
-    // --- Peripherals (Cyan) ---
-    {
-      "type": "camera",
-      "key": "📷 Cam",
-      "keyColor": "cyan"
-    },
-    {
-      "type": "gamepad",
-      "key": "🕹️ Pad",
-      "keyColor": "cyan"
-    },
-
-    // --- Network & Users (Green) ---
-    {
-      "type": "wifi",
-      "key": "📡 Wifi",
-      "keyColor": "green",
-      "format": "{ssid}"
-    },
-    {
-      "type": "bluetooth",
-      "key": "🦷 BT",
-      "keyColor": "green"
-    },
-    {
-      "type": "users",
-      "key": "👥 Users",
-      "keyColor": "green"
-    },
-
     // --- Resources (Magenta) ---
     {
       "type": "memory",
@@ -200,11 +170,6 @@
     {
       "type": "battery",
       "key": "🔋 Battery",
-      "keyColor": "magenta"
-    },
-    {
-      "type": "poweradapter",
-      "key": "🔌 Power",
       "keyColor": "magenta"
     },
 
