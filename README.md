@@ -15,7 +15,6 @@
 
   <br><br>
 
-  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
   [![Bash](https://img.shields.io/badge/language-Bash-4EAA25.svg)](https://www.gnu.org/software/bash/)
   [![Linux](https://img.shields.io/badge/OS-Linux-FCC624.svg)](https://www.linux.org/)
 
@@ -131,10 +130,4 @@ For icons to appear correctly, you must set your **Terminal Font** or **Monospac
 *   **XFCE Terminal:** Edit ➜ Preferences ➜ Appearance ➜ Font ➜ **Hack**.
 *   **Other Terminals:** Go to your terminal settings and select **Hack Nerd Font**.
 
----
 
-## 🤝 Contributing
-Feel free to fork this repository and submit pull requests if you want to add support for more window managers or specific configurations.
-
-## 📄 License
-This project is open-source. Feel free to use and modify it.
