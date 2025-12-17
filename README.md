@@ -51,36 +51,44 @@ Automate the setup of **Fastfetch**, **Cava**, and **Wallpapers** with a specifi
 
 ## 🚀 Installation & Usage
 
-First, clone this repository or download the files to your machine. Open your terminal in the directory where the files are located.
+Follow these steps to download and set up the tools.
 
-### 1. Grant Execution Permissions
+### 1. Clone the Repository
+Open your terminal and clone the repository to your local machine. This ensures that the directory structure (relative paths) remains intact.
+
+```bash
+git clone https://github.com/kloza15/pixelform-dotfile.git
+cd pixelform-dotfile
+```
+
+### 2. Grant Execution Permissions
 Before running any script, you must make them executable:
 
 ```bash
 chmod +x *.sh
 ```
 
-### 2. Run Scripts (Individual Mode)
+### 3. Run Scripts (Individual Mode)
 You can run the scripts one by one depending on what you need.
 
-**Step 1: Install Fastfetch, Fonts & Shell Configs**
+**Step A: Install Fastfetch, Fonts & Shell Configs**
 ```bash
 ./1-install-fastfetch-v1-pixelform-dotfile.sh
 ```
 
-**Step 2: Install Cava & Audio Configs**
+**Step B: Install Cava & Audio Configs**
 ```bash
 ./2-install-cava-v1-pixelform-dotfile.sh
 ```
 
-**Step 3: Apply Wallpaper**
+**Step C: Apply Wallpaper**
 ```bash
 ./3-install-wallpaper-v1-pixelform-dotfile.sh
 ```
 
 ---
 
-### 3. Run All Scripts (Combined Mode)
+### 4. Run All Scripts (Combined Mode)
 To install everything at once, copy and paste the following command block into your terminal:
 
 ```bash
