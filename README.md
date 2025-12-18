@@ -20,7 +20,7 @@
 ## 🧩 Compatibility & Details
 
 *   **Supported OS:** Debian, Ubuntu, Fedora, Arch Linux, OpenSUSE, Alpine.
-*   **Wallpaper Support:** Works automatically on KDE Plasma, GNOME, XFCE, and Window Managers (via `feh`).
+*   **Wallpaper Support:** Works automatically on KDE PLASMA, GNOME, CINNAMON, XFCE, and Window Managers (via `feh`).
 *   **Directory Structure:** The scripts use **relative paths**. Do not move the `.sh` files outside the main folder, or they will lose access to the configuration files.
 
 ---
