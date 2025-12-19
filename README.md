@@ -20,21 +20,19 @@
 ## 🧩 Compatibility & Details
 
 *   **Supported OS:** Debian, Ubuntu, Fedora, Arch Linux, OpenSUSE, Alpine.
-*   **Wallpaper Support:** Works automatically on KDE Plasma, GNOME, Cinnamon, Xfce, and window managers (via `feh`).
+*   **Smart Dependency Handling:** Automatically compiles tools like `lsix` from source if they are missing from your distribution's repositories (e.g., on Ubuntu).
+*   **Security:** Config files are deployed with secure permissions (`755`), ensuring your system remains safe.
 *   **Directory Structure:** The scripts use **relative paths**. Do not move the `.sh` files outside the main folder, or they will lose access to the configuration files.
 
 ---
 
-## ⚡ Quick Start (Recommended)
+## 🚀 One-Line Installation (Full Setup)
 
-Don't want to read? Just copy and paste this entire block into your terminal to install **Fastfetch**, **Cava**, and the **Wallpaper** all at once.
+Use this method to install **Fastfetch**, **Cava**, and the **Wallpaper** all at once. Just copy and paste this entire block into your terminal:
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/kloza15/pixelform-dotfile.git
-cd pixelform-dotfile
-
-# 2. Grant permissions and install everything
+git clone https://github.com/kloza15/pixelform-dotfile.git && \
+cd pixelform-dotfile && \
 chmod +x *.sh && \
 ./1-install-fastfetch-v1-pixelform-dotfile.sh && \
 ./2-install-cava-v1-pixelform-dotfile.sh && \
@@ -43,15 +41,36 @@ chmod +x *.sh && \
 
 ---
 
-## 🛠️ Custom Installation (Advanced)
+## 📦 Individual Module Installation (Single Code)
 
-If you only want specific parts of the setup, run these scripts individually inside the folder:
+If you do not want the full package, you can install **just one specific component**.
 
-| Component | Command | Description |
-| :--- | :--- | :--- |
-| **System Info** | `./1-install-fastfetch-v1-pixelform-dotfile.sh` | Installs Fastfetch, Fonts, and configures `.bashrc` / `.zshrc`. |
-| **Visualizer** | `./2-install-cava-v1-pixelform-dotfile.sh` | Installs Cava and applies audio visualizer configs. |
-| **Wallpaper** | `./3-install-wallpaper-v1-pixelform-dotfile.sh` | Detects your desktop (KDE/GNOME/etc.) and applies the background. |
+First, clone the repository and enter the folder:
+```bash
+git clone https://github.com/kloza15/pixelform-dotfile.git
+cd pixelform-dotfile
+chmod +x *.sh
+```
+
+Then, run **only** the script you need:
+
+### 1️⃣ Install System Info Only (Fastfetch)
+Installs Fastfetch, Hack Nerd Font, and terminal configs.
+```bash
+./1-install-fastfetch-v1-pixelform-dotfile.sh
+```
+
+### 2️⃣ Install Visualizer Only (Cava)
+Installs the Cava music visualizer and the custom gradient config.
+```bash
+./2-install-cava-v1-pixelform-dotfile.sh
+```
+
+### 3️⃣ Install Wallpaper Only
+Detects your desktop environment and applies the Pixelform wallpaper.
+```bash
+./3-install-wallpaper-v1-pixelform-dotfile.sh
+```
 
 ---
 
@@ -93,13 +112,12 @@ cava
 
 If you encounter any issues during or after installation, check the solutions below:
 
-### 1. Permission Denied / Command Not Found
+### 1. Permission Denied
 *   **Issue:** The terminal says permission is denied when running `./script.sh`.
 *   **Solution:** You must make the scripts executable before running them.
     ```bash
     chmod +x *.sh
     ```
-*   **Note:** Always run scripts using `./` (e.g., `./1-install...`). Do not simply type the filename.
 
 ### 2. Broken Icons (Squares/Boxes □□□)
 *   **Issue:** You see squares instead of icons in Fastfetch.
@@ -107,12 +125,9 @@ If you encounter any issues during or after installation, check the solutions be
     1.  Run `fc-cache -fv` to refresh the system font cache.
     2.  **Mandatory:** Go to your Terminal Settings and manually change the font to **Hack Nerd Font**. The script cannot do this step for you.
 
-### 3. Installation Fails / Freezes
-*   **Issue:** The script stops midway or errors out.
-*   **Solution:** Your package manager might be outdated or locked. Update your system manually before trying again:
-    *   **Debian/Ubuntu:** `sudo apt update && sudo apt upgrade`
-    *   **Arch:** `sudo pacman -Syu`
-    *   Ensure basic tools are installed: `git`, `curl`, `unzip`.
+### 3. 'lsix' Installation Slow
+*   **Issue:** The script pauses at "Installing lsix manually...".
+*   **Reason:** On systems like Ubuntu, `lsix` is not in the official store. The script is downloading and compiling it from GitHub automatically. Please wait a few seconds for it to finish.
 
 ### 4. Cava (Visualizer) Not Moving
 *   **Issue:** Cava opens but the bars don't react to music, or it crashes.
@@ -122,10 +137,7 @@ If you encounter any issues during or after installation, check the solutions be
     3.  Change `method` to `pulse`, `pipewire`, or `alsa` depending on your system.
 
 ### 5. Wallpaper Not Changing
-*   **Issue:** The background remains the same or turns black.
+*   **Issue:** The background remains the same.
 *   **Solution:**
-    *   **Desktop Environments (GNOME/KDE):** Try setting it manually from the `screenshots/` folder.
-    *   **Window Managers (i3/bspwm):** The script uses `feh`. Ensure you have `feh` installed and add this to your startup file:
-        ```bash
-        feh --bg-scale /path/to/pixelform-dotfile/screenshots/wallpaper.png
-        ```
+    *   **GNOME/KDE:** Try setting it manually from the `screenshots/` folder.
+    *   **Window Managers (i3/bspwm):** The script attempts to install `feh` automatically. If it fails, install it manually: `sudo apt install feh`.
