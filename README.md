@@ -129,4 +129,3 @@ If you encounter any issues during or after installation, check the solutions be
         ```bash
         feh --bg-scale /path/to/pixelform-dotfile/screenshots/wallpaper.png
         ```
-```
