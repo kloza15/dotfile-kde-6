@@ -110,34 +110,71 @@ cava
 
 ## 🆘 Troubleshooting & Common Issues
 
-If you encounter any issues during or after installation, check the solutions below:
+If you encounter any issues, find your problem below and copy the commands to fix it.
 
-### 1. Permission Denied
-*   **Issue:** The terminal says permission is denied when running `./script.sh`.
-*   **Solution:** You must make the scripts executable before running them.
+### 1. 🚫 Permission Denied
+*   **Problem:** The terminal says `bash: ./1-install...: Permission denied`.
+*   **Reason:** Linux blocks scripts from running for security until you approve them.
+*   **Solution:** Run this command inside the folder to unlock all scripts:
     ```bash
     chmod +x *.sh
     ```
 
-### 2. Broken Icons (Squares/Boxes □□□)
-*   **Issue:** You see squares instead of icons in Fastfetch.
-*   **Solution:** This is strictly a **Font Issue**.
-    1.  Run `fc-cache -fv` to refresh the system font cache.
-    2.  **Mandatory:** Go to your Terminal Settings and manually change the font to **Hack Nerd Font**. The script cannot do this step for you.
-
-### 3. 'lsix' Installation Slow
-*   **Issue:** The script pauses at "Installing lsix manually...".
-*   **Reason:** On systems like Ubuntu, `lsix` is not in the official store. The script is downloading and compiling it from GitHub automatically. Please wait a few seconds for it to finish.
-
-### 4. Cava (Visualizer) Not Moving
-*   **Issue:** Cava opens but the bars don't react to music, or it crashes.
-*   **Solution:** Cava needs to know your audio driver.
-    1.  Open config: `nano ~/.config/cava/config`
-    2.  Find `[input]`.
-    3.  Change `method` to `pulse`, `pipewire`, or `alsa` depending on your system.
-
-### 5. Wallpaper Not Changing
-*   **Issue:** The background remains the same.
+### 2. 🟥 Broken Icons (Squares/Boxes like □□□)
+*   **Problem:** Fastfetch shows squares or weird symbols instead of icons.
+*   **Reason:** Your terminal is not using a "Nerd Font". The script installs the font, but **you** must tell the terminal to use it.
 *   **Solution:**
-    *   **GNOME/KDE:** Try setting it manually from the `screenshots/` folder.
-    *   **Window Managers (i3/bspwm):** The script attempts to install `feh` automatically. If it fails, install it manually: `sudo apt install feh`.
+    1.  Refresh the system font cache:
+        ```bash
+        fc-cache -fv
+        ```
+    2.  **Crucial Step:** Open your Terminal **Preferences/Settings** → **Appearance** → **Font** → Select **"Hack Nerd Font"**.
+
+### 3. 🎵 Cava (Visualizer) Is Frozen or crashing
+*   **Problem:** Cava opens, but the bars don't move, or it closes immediately.
+*   **Reason:** Cava might be trying to listen to the wrong audio driver (e.g., ALSA instead of PulseAudio/Pipewire).
+*   **Solution:** Edit the config file to force the correct audio driver.
+    1.  Open the config file:
+        ```bash
+        nano ~/.config/cava/config
+        ```
+    2.  Look for `[input]` and change `method`. Try `pulse` first (most common), or `pipewire`:
+        ```ini
+        # Change this line inside the file:
+        method = pulse
+        ```
+    3.  Press `Ctrl+X`, then `Y`, then `Enter` to save.
+
+### 4. 🖼️ Wallpaper Didn't Change
+*   **Problem:** The background is black or didn't change.
+*   **Reason:** Your desktop environment might block external scripts, or you are using a Window Manager without a wallpaper tool.
+*   **Solution (Manual):**
+    *   **GNOME/KDE:** Right-click your desktop → "Change Background" → Pick the image from `pixelform-dotfile/screenshots/wallpaper.png`.
+    *   **i3 / bspwm / Hyprland:** Install `feh` and set it manually:
+        ```bash
+        # Install feh
+        sudo apt install feh   # Debian/Ubuntu
+        sudo pacman -S feh     # Arch
+
+        # Apply wallpaper
+        feh --bg-fill ~/pixelform-dotfile/wallpaper-pixelform-dotfile/wallpaper.png
+        ```
+
+### 5. ⏳ Script Stuck at "Installing lsix..."
+*   **Problem:** The script seems to freeze when installing `lsix`.
+*   **Reason:** On Ubuntu/Debian, `lsix` isn't in the app store. The script is downloading source code and compiling it.
+*   **Solution:** **Wait.** It usually takes 30-60 seconds. Do not close the terminal.
+
+### 6. 🔒 "Could not get lock /var/lib/dpkg/lock"
+*   **Problem:** You see an error saying "Could not get lock" or "Resource temporarily unavailable".
+*   **Reason:** Another update process or "Software Center" is running in the background.
+*   **Solution:** Kill the background process and try again:
+    ```bash
+    sudo killall apt apt-get
+    sudo rm /var/lib/apt/lists/lock
+    sudo rm /var/cache/apt/archives/lock
+    sudo rm /var/lib/dpkg/lock*
+    
+    # Then run the script again
+    ./1-install-fastfetch-v1-pixelform-dotfile.sh
+    ```
