@@ -114,6 +114,53 @@ The script has installed **"Hack Nerd Font"** into your system, but for security
 4.  Click on the current font name.
 5.  Search for **`Hack`** or **`Hack Nerd Font`** and select it.
 
+#### 5. Window Managers & Wayland Compositors
+*Includes: **Hyprland**, Sway, Wayfire, River, Niri (Wayland)*
+*Includes: **i3**, bspwm, AwesomeWM, Qtile, DWM, Xmonad, Openbox (X11)*
+
+In these environments, the font is controlled by your **Terminal's Configuration File**, not a system menu. Identify which terminal you are using below and update its config:
+
+*   **Kitty** (Default for Hyprland):
+    1.  Open: `~/.config/kitty/kitty.conf`
+    2.  Add/Edit:
+        ```properties
+        font_family      Hack Nerd Font
+        bold_font        auto
+        italic_font      auto
+        bold_italic_font auto
+        ```
+
+*   **Alacritty** (Popular on i3, bspwm, Wayfire):
+    1.  Open: `~/.config/alacritty/alacritty.toml`
+    2.  Add/Edit under `[font]`:
+        ```toml
+        [font]
+        normal = { family = "Hack Nerd Font", style = "Regular" }
+        size = 12.0
+        ```
+
+*   **Foot** (Default for Sway, River):
+    1.  Open: `~/.config/foot/foot.ini`
+    2.  Add/Edit under `[main]`:
+        ```ini
+        font=Hack Nerd Font:size=11
+        ```
+
+*   **WezTerm** (Advanced Users):
+    1.  Open: `~/.config/wezterm/wezterm.lua`
+    2.  Add to your config object:
+        ```lua
+        config.font = wezterm.font 'Hack Nerd Font'
+        ```
+
+*   **URxvt / XTerm** (Old school X11 / DWM / Xmonad):
+    1.  Open: `~/.Xresources` or `~/.Xdefaults`
+    2.  Add:
+        ```properties
+        URxvt.font: xft:Hack Nerd Font:size=11
+        ```
+    3.  Reload: `xrdb ~/.Xresources`
+
 ---
 
 ## 🎮 How to Use Your New Tools
