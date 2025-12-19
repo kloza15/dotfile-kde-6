@@ -86,3 +86,47 @@ cava
 **Controls:**
 *   `Arrow Keys`: Adjust sensitivity and bar width.
 *   `Q`: Quit.
+
+---
+
+## 🆘 Troubleshooting & Common Issues
+
+If you encounter any issues during or after installation, check the solutions below:
+
+### 1. Permission Denied / Command Not Found
+*   **Issue:** The terminal says permission is denied when running `./script.sh`.
+*   **Solution:** You must make the scripts executable before running them.
+    ```bash
+    chmod +x *.sh
+    ```
+*   **Note:** Always run scripts using `./` (e.g., `./1-install...`). Do not simply type the filename.
+
+### 2. Broken Icons (Squares/Boxes □□□)
+*   **Issue:** You see squares instead of icons in Fastfetch.
+*   **Solution:** This is strictly a **Font Issue**.
+    1.  Run `fc-cache -fv` to refresh the system font cache.
+    2.  **Mandatory:** Go to your Terminal Settings and manually change the font to **Hack Nerd Font**. The script cannot do this step for you.
+
+### 3. Installation Fails / Freezes
+*   **Issue:** The script stops midway or errors out.
+*   **Solution:** Your package manager might be outdated or locked. Update your system manually before trying again:
+    *   **Debian/Ubuntu:** `sudo apt update && sudo apt upgrade`
+    *   **Arch:** `sudo pacman -Syu`
+    *   Ensure basic tools are installed: `git`, `curl`, `unzip`.
+
+### 4. Cava (Visualizer) Not Moving
+*   **Issue:** Cava opens but the bars don't react to music, or it crashes.
+*   **Solution:** Cava needs to know your audio driver.
+    1.  Open config: `nano ~/.config/cava/config`
+    2.  Find `[input]`.
+    3.  Change `method` to `pulse`, `pipewire`, or `alsa` depending on your system.
+
+### 5. Wallpaper Not Changing
+*   **Issue:** The background remains the same or turns black.
+*   **Solution:**
+    *   **Desktop Environments (GNOME/KDE):** Try setting it manually from the `screenshots/` folder.
+    *   **Window Managers (i3/bspwm):** The script uses `feh`. Ensure you have `feh` installed and add this to your startup file:
+        ```bash
+        feh --bg-scale /path/to/pixelform-dotfile/screenshots/wallpaper.png
+        ```
+```
