@@ -217,8 +217,23 @@ If you encounter any issues, find your problem below and copy the commands to fi
     ```bash
     chmod +x *.sh
     ```
-
-### 2. 🟥 Broken Icons (Squares/Boxes like □□□)
+### 2. 🖼️ Images/Logo Not Showing in Terminal
+*   **Problem:** Fastfetch shows text/ASCII art instead of the image, or `lsix` shows nothing.
+*   **Reason:** Your **Terminal Emulator** does not support Image Protocols (Sixel or Kitty graphics).
+    *   ❌ **Often Unsupported:** GNOME Terminal (default), older XFCE Terminal, standard Debian terminal.
+    *   ✅ **Supported:** Konsole (KDE), Kitty, WezTerm, Foot, Alacritty (requires config), Ghostty.
+*   **Solution:**
+    1.  **Test Compatibility:** Run this command:
+        ```bash
+        lsix
+        ```
+        If nothing appears, your terminal cannot display images.
+    2.  **Fix:** Install a modern terminal like **Konsole** or **Kitty**:
+        ```bash
+        sudo apt install konsole   # Debian/Ubuntu
+        sudo pacman -S kitty       # Arch
+        ```
+### 3. 🟥 Broken Icons (Squares/Boxes like □□□)
 *   **Problem:** Fastfetch shows squares or weird symbols instead of icons.
 *   **Reason:** Your terminal is not using a "Nerd Font". The script installs the font, but **you** must tell the terminal to use it.
 *   **Solution:**
