@@ -17,12 +17,26 @@
 
 ---
 
-## 🧩 Compatibility & Details
+## 🧩 Compatibility & Technical Details
 
-*   **Supported OS:** Debian, Ubuntu, Fedora, Arch Linux, OpenSUSE, Alpine.
-*   **Smart Dependency Handling:** Automatically compiles tools like `lsix` from source if they are missing from your distribution's repositories (e.g., on Ubuntu).
-*   **Security:** Config files are deployed with secure permissions (`755`), ensuring your system remains safe.
-*   **Directory Structure:** The scripts use **relative paths**. Do not move the `.sh` files outside the main folder, or they will lose access to the configuration files.
+### 1. ✅ Supported Operating Systems (Tested)
+The script supports almost any distribution based on these major families:
+
+*   **Debian & Ubuntu Family:**
+    *   *Examples:* Ubuntu (20.04+), Linux Mint, Pop!_OS, Kali Linux, Zorin OS, KDE Neon, Elementary OS, MX Linux.
+*   **Arch Linux Family:**
+    *   *Examples:* Arch Linux, Manjaro, EndeavourOS, Garuda Linux, ArcoLinux.
+*   **Fedora & RHEL Family:**
+    *   *Examples:* Fedora Workstation, Nobara Project, CentOS Stream, Red Hat Enterprise Linux (RHEL).
+*   **OpenSUSE Family:**
+    *   *Examples:* OpenSUSE Tumbleweed, OpenSUSE Leap.
+*   **Alpine Linux:**
+    *   *Examples:* Alpine (Standard), PostmarketOS.
+
+### 2. ⚙️ Technical Highlights
+*   **Smart Fallbacks:** Automatically builds tools from source if missing (e.g., compiles `lsix` on Ubuntu automatically).
+*   **Secure Permissions:** Applies **`chmod 755`** (not `777`), ensuring only you can modify your config files.
+*   **Structure:** Scripts use **relative paths**. **Do not move** the `.sh` files outside this folder; they must stay next to the config directories.
 
 ---
 
@@ -318,4 +332,4 @@ If you encounter any issues, find your problem below and copy the commands to fi
     
     # Then run the script again
     ./1-install-fastfetch-v1-pixelform-dotfile.sh
-    ```   
+    ```
