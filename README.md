@@ -93,19 +93,32 @@ If you prefer **not** to use the automated scripts, or if you want full control 
 ### 1. Install Required Tools
 First, you must install the programs yourself using your package manager.
 
-*   **Ubuntu/Debian:**
+*   **Debian, Ubuntu, Linux Mint, Kali, Pop!_OS:**
     ```bash
     sudo apt update
     sudo apt install fastfetch cava unzip wget
     ```
-*   **Arch Linux:**
+
+*   **Arch Linux, Manjaro, EndeavourOS, Garuda:**
     ```bash
     sudo pacman -S fastfetch cava unzip wget
     ```
-*   **Fedora:**
+
+*   **Fedora, RHEL, CentOS, Nobara:**
     ```bash
     sudo dnf install fastfetch cava unzip wget
     ```
+
+*   **OpenSUSE (Tumbleweed & Leap):**
+    ```bash
+    sudo zypper install fastfetch cava unzip wget
+    ```
+
+*   **Alpine Linux:**
+    ```bash
+    sudo apk add fastfetch cava unzip wget
+    ```
+
 ### 2. Download & Extract Files
 1.  Scroll to the top of this GitHub page.
 2.  Click the green **Code** button and select **Download ZIP**.
